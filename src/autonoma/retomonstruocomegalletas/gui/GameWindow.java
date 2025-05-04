@@ -4,17 +4,26 @@
  */
 package autonoma.retomonstruocomegalletas.gui;
 
+import autonoma.retomonstruocomegalletas.v.CookieForest;
+import java.awt.Graphics;
+import java.awt.Image;
+
 /**
  *
  * @author Maria Paz Puerta
  */
 public class GameWindow extends javax.swing.JFrame {
 
+    private CookieForest cookieforest;
     /**
      * Creates new form GameWindow
      */
     public GameWindow() {
         initComponents();
+        this.setSize(800, 800);
+        this.setLocationRelativeTo(null);
+        setFocusable(true);
+        this.cookieforest = new CookieForest(0, 0, getWidth(), getHeight());
     }
 
     /**
@@ -42,39 +51,32 @@ public class GameWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setCookieForest(CookieForest cookieforest) {
+        this.cookieforest = cookieforest;
+    }
+    
+    @Override
+    public void paint(Graphics g) {
+        Image buffer = createImage(getWidth(), getHeight());
+        Graphics gBuffer = buffer.getGraphics();
+        
+        cookieforest.draw(gBuffer);
+
+       
+        g.drawImage(buffer, 0, 0, this);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameWindow().setVisible(true);
-            }
-        });
+        GameWindow window = new GameWindow();
+        
+        CookieForest cookieforest = new CookieForest(0, 0, window.getWidth(), window.getHeight());
+        
+        window.setCookieForest(cookieforest);
+        
+        window.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
